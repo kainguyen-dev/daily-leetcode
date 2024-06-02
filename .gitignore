@@ -186,7 +186,6 @@ Desktop.ini
 
 package-lock.json
 .vscode
-.vscode
 
 END_DEPLOY_TIME
 START_DEPLOY_TIME
