@@ -200,6 +200,5 @@ build
 code/build
 code/.gradle
 
-code/build/**
-code/.gradle/**
-code/build/classes
+code/build/*
+code/.gradle/*
