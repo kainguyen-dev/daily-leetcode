@@ -195,3 +195,10 @@ START_DEPLOY_TIME
 /code/build
 /code/.kotlin
 /code/gradle
+
+build
+code/build
+code/.gradle
+
+code/build/*
+code/.gradle/*
