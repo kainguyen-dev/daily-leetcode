@@ -10,11 +10,13 @@ class MoveZeros {
      * Note that you must do this in-place without making a copy of the array.
      */
 
-    fun moveZeroes(nums: IntArray): Unit {
-        val pivot = 0
-
-        for (num in nums.indices) {
-
+    fun moveZeroes(nums: IntArray) {
+        var pivot = 0
+        for (i in nums.indices) {
+            if (nums[i] != 0) {
+                swap(nums, pivot, i)
+                pivot++
+            }
         }
     }
 
