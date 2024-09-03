@@ -66,7 +66,7 @@ class PacificOceanAtlanticFlow {
 
         // BFS from current coordinate to Pacific Ocean
         val queue: Queue<IntArray> = LinkedList()
-        val visited = mutableSetOf<String>()
+        val visited = Array(heights.size) { BooleanArray(heights[0].size) }
         queue.add(intArrayOf(row, col))
 
         // can reach pacific | can reach atlantic
@@ -77,7 +77,6 @@ class PacificOceanAtlanticFlow {
             val levelSize = queue.size
             for (i in 0 until  levelSize) {
                 val coor = queue.poll()
-                visited.add("${coor[0]}_${coor[1]}")
 
                 if (mapCanReach.containsKey("${coor[0]}_${coor[1]}") && mapCanReach["${coor[0]}_${coor[1]}"] == true) {
                     return true
@@ -95,7 +94,7 @@ class PacificOceanAtlanticFlow {
                 if (coor[0] + WEST[0] >= 0) {
                     val westNode = intArrayOf(coor[0] + WEST[0] , coor[1] + WEST[1])
                     val canTravel = getHeight(heights, coor) >= getHeight(heights, westNode)
-                    if (canTravel && !visited.contains("${westNode[0]}_${westNode[1]}")) {
+                    if (canTravel && !visited[coor[0]][coor[1]]) {
                         queue.add(westNode)
                     }
                 }
@@ -103,7 +102,7 @@ class PacificOceanAtlanticFlow {
                 if (coor[1] + NORTH[1] >= 0) {
                     val northNode = intArrayOf(coor[0] + NORTH[0] , coor[1] + NORTH[1])
                     val canTravel = getHeight(heights, coor) >= getHeight(heights, northNode)
-                    if (canTravel && !visited.contains("${northNode[0]}_${northNode[1]}")) {
+                    if (canTravel && !visited[coor[0]][coor[1]]) {
                         queue.add(northNode)
                     }
                 }
@@ -111,18 +110,21 @@ class PacificOceanAtlanticFlow {
                 if (coor[0] + EAST[0] <= maxRow) {
                     val eastNode = intArrayOf(coor[0] + EAST[0] , coor[1] + EAST[1])
                     val canTravel = getHeight(heights, coor) >= getHeight(heights, eastNode)
-                    if (canTravel && !visited.contains("${eastNode[0]}_${eastNode[1]}")) {
+                    if (canTravel && !visited[coor[0]][coor[1]]) {
                         queue.add(eastNode)
                     }
                 }
+
                 // handle north node
                 if (coor[1] + SOUTH[1] <= maxCol) {
                     val southNode = intArrayOf(coor[0] + SOUTH[0] , coor[1] + SOUTH[1])
                     val canTravel = getHeight(heights, coor) >= getHeight(heights, southNode)
-                    if (canTravel && !visited.contains("${southNode[0]}_${southNode[1]}")) {
+                    if (canTravel && !visited[coor[0]][coor[1]]) {
                         queue.add(southNode)
                     }
                 }
+
+                visited[coor[0]][coor[1]] = true
             }
         }
 
