@@ -23,115 +23,84 @@ class PacificOceanAtlanticFlow {
 
     /**
      * Idea:
-     * Froms cell try to find Pacific ocean
+     * From pacific TOP and LEFT wall, bfs to atlantic,
+     * From atlantic RIGHT and BOTTOM wall, bfs to pacific
      *
      */
 
 
     companion object {
-        // PACIFIC_DIR
-        val WEST = intArrayOf(-1, 0)
-        val NORTH = intArrayOf(0, -1)
-
-        // ATLANTIC_DIR
-        val EAST = intArrayOf(1, 0)
-        val SOUTH = intArrayOf(0, 1)
-
-
+        // 4 DIRECTION
+        val ROW_DIR = intArrayOf(1, -1, 0, 0)
+        val COL_DIR = intArrayOf(0, 0, 1, -1)
+        const val N_DIR = 4
     }
 
     fun pacificAtlantic(heights: Array<IntArray>): List<List<Int>> {
-        val maxRow = heights.size - 1
-        val maxCol = heights[0].size - 1
-        val mapCanReach = mutableMapOf<String, Boolean>()
+        val nRow = heights.size
+        val nCol = heights[0].size
+
+        val atlanticVisited = Array(nRow) { BooleanArray(nCol) }
+        val pacificVisited = Array(nRow) { BooleanArray(nCol) }
+
+        val atlanticQueue = LinkedList<IntArray>()
+        val pacificQueue = LinkedList<IntArray>()
+
+        for (i in 0 until nRow) {
+            pacificVisited[i][0] = true
+            pacificQueue.add(intArrayOf(i, 0))
+        }
+
+        for (j in 0 until nCol) {
+            pacificVisited[0][j] = true
+            pacificQueue.add(intArrayOf(0, j))
+        }
+
+        for (i in 0 until nRow) {
+            atlanticVisited[i][nCol - 1] = true
+            atlanticQueue.add(intArrayOf(i, nCol - 1))
+        }
+
+        for (j in 0 until nCol) {
+            atlanticVisited[nRow - 1][j] = true
+            atlanticQueue.add(intArrayOf(nRow - 1, j))
+        }
+
+        bfs(heights, pacificQueue, pacificVisited)
+        bfs(heights, atlanticQueue, atlanticVisited)
+
         val result = mutableListOf<List<Int>>()
-        for (i in 0..maxRow) {
-            for (j in 0..maxCol) {
-                val canReach = transverse(heights, i, j, mapCanReach)
-                if (canReach) {
-                    mapCanReach["${i}_${j}"] = true
+        for (i in 0 until nRow) {
+            for (j in 0 until nCol) {
+                if (pacificVisited[i][j] && atlanticVisited[i][j]) {
                     result.add(listOf(i, j))
-                } else {
-                    mapCanReach["${i}_${j}"] = false
                 }
             }
         }
         return result
     }
 
-    private fun transverse(heights: Array<IntArray>, row: Int, col: Int, mapCanReach: Map<String, Boolean>): Boolean {
-
-        val maxRow = heights.size - 1
-        val maxCol = heights[0].size - 1
-
-        // BFS from current coordinate to Pacific Ocean
-        val queue: Queue<IntArray> = LinkedList()
-        val visited = Array(heights.size) { BooleanArray(heights[0].size) }
-        queue.add(intArrayOf(row, col))
-
-        // can reach pacific | can reach atlantic
-        var canReachPacific = false
-        var canReachAtlantic = false
+    private fun bfs(heights: Array<IntArray>, queue: LinkedList<IntArray>, visited: Array<BooleanArray>) {
+        val nRow = heights.size
+        val nCol = heights[0].size
 
         while (queue.isNotEmpty()) {
-            val levelSize = queue.size
-            for (i in 0 until  levelSize) {
-                val coor = queue.poll()
+            val row = queue.peek()[0]
+            val col = queue.peek()[1]
+            queue.poll()
 
-                if (mapCanReach.containsKey("${coor[0]}_${coor[1]}") && mapCanReach["${coor[0]}_${coor[1]}"] == true) {
-                    return true
-                }
+            for (i in 0 until N_DIR) {
+                val newRow = row + ROW_DIR[i]
+                val newCol = col + COL_DIR[i]
 
-                if (coor[0] == 0 || coor[1] == 0) {
-                    canReachPacific = true
+                if (newRow >= 0 && newCol >= 0 && newRow < nRow && newCol < nCol // boundary
+                    && !visited[newRow][newCol] // not visited
+                    && heights[newRow][newCol] >= heights[row][col] // can pass down water
+                ) {
+                    queue.add(intArrayOf(newRow, newCol))
+                    visited[newRow][newCol] = true
                 }
-
-                if (coor[0] == maxRow || coor[1] == maxCol) {
-                    canReachAtlantic = true
-                }
-
-                // handle west node
-                if (coor[0] + WEST[0] >= 0) {
-                    val westNode = intArrayOf(coor[0] + WEST[0] , coor[1] + WEST[1])
-                    val canTravel = getHeight(heights, coor) >= getHeight(heights, westNode)
-                    if (canTravel && !visited[coor[0]][coor[1]]) {
-                        queue.add(westNode)
-                    }
-                }
-                // handle north node
-                if (coor[1] + NORTH[1] >= 0) {
-                    val northNode = intArrayOf(coor[0] + NORTH[0] , coor[1] + NORTH[1])
-                    val canTravel = getHeight(heights, coor) >= getHeight(heights, northNode)
-                    if (canTravel && !visited[coor[0]][coor[1]]) {
-                        queue.add(northNode)
-                    }
-                }
-                // handle east node
-                if (coor[0] + EAST[0] <= maxRow) {
-                    val eastNode = intArrayOf(coor[0] + EAST[0] , coor[1] + EAST[1])
-                    val canTravel = getHeight(heights, coor) >= getHeight(heights, eastNode)
-                    if (canTravel && !visited[coor[0]][coor[1]]) {
-                        queue.add(eastNode)
-                    }
-                }
-
-                // handle north node
-                if (coor[1] + SOUTH[1] <= maxCol) {
-                    val southNode = intArrayOf(coor[0] + SOUTH[0] , coor[1] + SOUTH[1])
-                    val canTravel = getHeight(heights, coor) >= getHeight(heights, southNode)
-                    if (canTravel && !visited[coor[0]][coor[1]]) {
-                        queue.add(southNode)
-                    }
-                }
-
-                visited[coor[0]][coor[1]] = true
             }
         }
-
-        return canReachPacific && canReachAtlantic
-    }
-
-    private fun getHeight(heights: Array<IntArray>, coor: IntArray): Int {
-        return heights[coor[0]][coor[1]]
     }
 }
