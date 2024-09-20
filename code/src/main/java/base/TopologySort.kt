@@ -2,7 +2,9 @@ package base
 
 import java.util.*
 
-
+/**
+ * Working only with DAG ( Directed Acyclic Graph )
+ */
 class TopologySort {
 
     fun topologicalSort(vertices: Int, adjList: List<List<Int>>): List<Int> {
