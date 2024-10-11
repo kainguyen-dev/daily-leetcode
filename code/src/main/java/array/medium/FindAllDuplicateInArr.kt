@@ -9,7 +9,7 @@ class FindAllDuplicateInArr {
             if (!bitmap[i - 1]) {
                 bitmap[i - 1] = true
             } else {
-                bitmap[i-1] = false
+                bitmap[i - 1] = false
                 result.add(i)
             }
         }

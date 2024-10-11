@@ -2,7 +2,7 @@ package base
 
 import java.util.*
 
-data class TreeNode(var value: Int) {
+data class TreeNode(var `val`: Int) {
     var left: TreeNode? = null
     var right: TreeNode? = null
 }
