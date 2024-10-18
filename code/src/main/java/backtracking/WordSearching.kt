@@ -37,6 +37,7 @@ class WordSearching {
                 return true
             }
 
+            // back tracking
             visited.add(node)
             val neighbours = getNeighbour(node, ROW, COL, visited)
             for (neighbour in neighbours) {
