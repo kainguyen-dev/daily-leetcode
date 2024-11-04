@@ -15,10 +15,11 @@ class Permutation {
                 result.add(current.toMutableList())
             } else {
                 for (num in nums) {
-                    if (current.contains(num)) continue
-                    current.add(num)
-                    backTracking(current)
-                    current.removeAt(current.size - 1)
+                    if (!current.contains(num)) {
+                        current.add(num)
+                        backTracking(current)
+                        current.removeAt(current.size - 1)
+                    }
                 }
             }
         }
