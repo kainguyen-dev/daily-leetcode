@@ -2,11 +2,9 @@ package backtracking
 
 class PermutationII {
 
-
     // IDEA is to instead count array
     // We map a map of element -> frequency
     // We only count on keys
-
     // https://leetcode.com/problems/permutations-ii/
     fun permuteUnique(nums: IntArray): List<List<Int>> {
         val result = mutableListOf<List<Int>>()
