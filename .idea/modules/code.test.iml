@@ -41,7 +41,7 @@
       <sourceFolder url="file://$MODULE_DIR$/../../code/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/../../code/src/test/resources" type="java-test-resource" />
     </content>
-    <orderEntry type="jdk" jdkName="corretto-17" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="openjdk-21" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="code.main" />
     <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.0.0-RC3" level="project" />

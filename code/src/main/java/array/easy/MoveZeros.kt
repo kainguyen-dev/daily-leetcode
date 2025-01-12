@@ -10,12 +10,24 @@ class MoveZeros {
      * Note that you must do this in-place without making a copy of the array.
      */
 
+    // https://leetcode.com/problems/move-zeroes/description/
+
+    // The idea here is to use a pivot as marker.
+    // When we detect desirable number, we swap the desire number and the pivot.
+    // By doing this, pivot is "stuck" with "undesirable" number, and will be swap next iteration
     fun moveZeroes(nums: IntArray) {
         var pivot = 0
         for (i in nums.indices) {
+
+            println()
+            println("NUMS ${nums.contentToString()}")
+            println("PIVOT $pivot")
+            println()
+
             if (nums[i] != 0) {
                 swap(nums, pivot, i)
                 pivot++
+                // Number is OK, nothing to do here.
             }
         }
     }
