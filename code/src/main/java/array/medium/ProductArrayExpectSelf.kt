@@ -15,9 +15,9 @@ class ProductArrayExpectSelf {
      * 3 = 1 * 2 * 4
      * 4 = 1 * 2 * 3
      *
-     *  1  1  2    6    24
+     *  1  1  2   6
      *
-     *  1  4  12  24    24
+     *  1  4  12  24
      *
      *  (24*1) (1*12) (2*4) (6*1)
      */
@@ -34,6 +34,7 @@ class ProductArrayExpectSelf {
         for (i in 1..<nums.size) {
             reverseProduct.add(nums[i] * reverseProduct[i-1]) // [1, 4, 12, 24, 24]  (24*1) (1*12) (2*4) (6*1)
         }
+
         forwardProduct.add(0, 1)
         reverseProduct.add(0, 1)
 
@@ -43,7 +44,6 @@ class ProductArrayExpectSelf {
         }
         return result.toIntArray()
     }
-
 
 
 }
