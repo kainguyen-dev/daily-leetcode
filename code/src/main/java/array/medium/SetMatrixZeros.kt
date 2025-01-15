@@ -2,6 +2,11 @@ package array.medium
 
 class SetMatrixZeros {
 
+
+    // https://leetcode.com/problems/set-matrix-zeroes/
+    // Idea is to construct a bit map
+    // ROW_ZERO BIT MAP
+    // COL_ZERO BIT MAP
     fun setZeroes(matrix: Array<IntArray>): Unit {
         val totalRow = matrix.size - 1
         val totalCol = matrix[0].size - 1
