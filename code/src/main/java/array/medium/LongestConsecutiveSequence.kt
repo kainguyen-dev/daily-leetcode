@@ -7,6 +7,7 @@ class LongestConsecutiveSequence {
     // https://leetcode.com/problems/longest-consecutive-sequence/description/
     fun longestConsecutive(nums: IntArray): Int {
         val set = mutableSetOf<Int>()
+
         for (num in nums) set.add(num)
 
         var result = 0
