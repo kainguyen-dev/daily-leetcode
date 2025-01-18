@@ -36,7 +36,7 @@ class FirstMissingPositive {
         }
 
         cycleSort(nums)
-        println("After sort ${nums.contentToString()}")
+        println("after sort ${nums.contentToString()}")
         for (i in nums.indices) {
             // correct index is not belong to the value, return the index + 1
             if (nums[i] - 1  != i) {
